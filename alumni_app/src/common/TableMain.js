@@ -17,6 +17,9 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { TableHead } from '@material-ui/core';
 import { getRequest } from '../setup/fetch-manager/FetchGateway';
+import { Button } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router';
 
 function TablePaginationActions(props) {
     const theme = useTheme();
@@ -85,20 +88,29 @@ TablePaginationActions.propTypes = {
 
 export default function TableMain(props) {
     const [page, setPage] = React.useState(0);
+    const [count, setCount] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [rowData, setRowData] = React.useState([]);
+    const navigate = useNavigate();
     let uniqueKey = 1;
 
     const fetchData = async () => {
-        let params = props.dataUrl + "/getAll?page=" + page + "&size=" + rowsPerPage;
+        let params = props.dataUrl + "/getAll?page=" + page + "&size=" + rowsPerPage + "&searchValue=";
         let result = await getRequest(params);
-        let finalResult = [];
+        debugger
         setRowData(result);
+    }
+
+    const countData = async () => {
+        let params = props.dataUrl + "/count";
+        const count = await getRequest(params);
+        setCount(count);
     }
 
     React.useEffect(() => {
         fetchData();
-    }, [])
+        countData();
+    }, [page, rowsPerPage])
 
 
 
@@ -126,25 +138,43 @@ export default function TableMain(props) {
     // get table heading data
     const thData = () => {
         return column.map((data) => {
-            return <TableCell key={data} style={{ width: 50 }} className="uppercase">{data}</TableCell>
+            if (data != 'id')
+                return <TableCell key={data} style={{ width: 50 }} className="uppercase">{data}</TableCell>
         })
     }
 
     // get table row data
     const tdData = () => {
-        return rowData.map((data) => {
-            return (
-                <TableRow key={++uniqueKey}>{
-                    column.map((v) => {
-                        return (
-                            <TableCell style={{ width: 50 }} key={++uniqueKey + data[v]}>{data[v]} </TableCell>
-                        )
-                    })
-                }
-                </TableRow>
+        if (rowData == undefined) {
+            return <></>
+        }
+        else {
+            return rowData.map((data) => {
+                return (
+                    <TableRow key={++uniqueKey}>{
+                        column.map((v) => {
+                            if (v != 'id')
+                                return (
+                                    <TableCell style={{ width: 50 }} key={++uniqueKey + data[v]}>{data[v]} </TableCell>
+                                )
+                        })
+                    }
+                        <TableCell style={{ width: 50 }}>
+                            <Button onClick={() => { navigate(props.editUrl + data.id) }} variant="contained" color="success" className='button-custom'>Edit</Button>
+                            <Button onClick={() => { navigate(props.deleteUrl + data.id) }} variant="contained" color="warning" className='button-custom'>Delete</Button>
+                            <Button onClick={() => { navigate(props.detailUrl + data.id) }} variant="contained" color="secondary" className='button-custom'>Detail</Button>
+                            {(props.addComment ?
+                                <Button onClick={() => { navigate('/Comments/' + data.id) }} variant="contained" color="primary" className='button-custom'>Comment</Button>
+                                :
+                                ''
+                            )}
+                        </TableCell>
 
-            )
-        })
+                    </TableRow>
+
+                )
+            })
+        }
     }
 
     return (
@@ -153,17 +183,21 @@ export default function TableMain(props) {
                 <TableHead>
                     <TableRow key={++uniqueKey}>
                         {thData()}
+                        <TableCell key={++uniqueKey} style={{ width: 50 }} className="uppercase">Actions</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {tdData()}
+
                 </TableBody>
                 <TableFooter>
                     <TableRow>
                         <TablePagination
                             rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                             colSpan={3}
-                            count={rowData.length}
+                            count={
+                                count
+                            }
                             rowsPerPage={rowsPerPage}
                             page={page}
                             SelectProps={{

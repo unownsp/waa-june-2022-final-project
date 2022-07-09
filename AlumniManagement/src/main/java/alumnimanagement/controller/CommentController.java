@@ -10,13 +10,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/comments")
 @AllArgsConstructor
+@CrossOrigin
 public class CommentController {
 
 
     private final CommentService commentService;
 
-    @PostMapping
-    public void writeComment(CommentDTO commentDTO){
+    @PostMapping()
+    public void writeComment(@RequestBody  CommentDTO commentDTO){
+
         commentService.create(commentDTO);
     }
 
