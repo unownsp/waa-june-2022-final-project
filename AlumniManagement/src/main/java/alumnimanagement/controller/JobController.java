@@ -17,7 +17,7 @@ public class JobController {
 
     private final JobService jobService;
 
-    @GetMapping("/getAll")
+    @GetMapping
     public List<JobAdvertisementDTO> findAll(@RequestParam int page, @RequestParam int size) {
         return jobService.getAll();
     }
