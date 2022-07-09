@@ -1,5 +1,10 @@
 import React from "react";
 
-export default function Job() {
-    
+export default function Job(props) {
+    return (
+        <div>
+            
+        </div>
+    )
+
 }
