@@ -41,7 +41,7 @@ export default function RouteApp() {
         <Route path="/Profile" element={<Profile />}></Route>
         <Route path="/reset-password" element={<ChangePassword />}></Route>
         <Route path="/Jobs/newJob" element={<CreateJob />}></Route>
-        <Route path="/Jobs/:id" element={<GetJobList />}></Route>
+        <Route path="/Jobs/jobList" element={<GetJobList />}></Route>
         <Route path="/FileUpload" element={<FileUpload />}></Route>
         <Route path="/JobDetails/:id" element={<JobDetails />}></Route>
         <Route path="/cv" element={<Cv />}></Route>
@@ -54,7 +54,7 @@ export default function RouteApp() {
           path="/JobDetails/additional/:id"
           element={<SubmitJob />}
         ></Route>
-          <Route path="/Register" element={<Register />}></Route>
+        <Route path="/Register" element={<Register />}></Route>
       </Routes>
     </>
   );

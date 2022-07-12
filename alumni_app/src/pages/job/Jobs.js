@@ -62,7 +62,7 @@ export default function Jobs() {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate("/Jobs/" + id)}
+            onClick={() => navigate("/Jobs/jobList")}
           >
             Edit Job
           </Button>

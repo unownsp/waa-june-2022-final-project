@@ -1,9 +1,6 @@
 package alumnimanagement.controller;
 
-import alumnimanagement.dto.JobAdvertisementDTO;
-import alumnimanagement.dto.JobAdvertisementListDTO;
-import alumnimanagement.dto.ReportList;
-import alumnimanagement.dto.StudentListDto;
+import alumnimanagement.dto.*;
 import alumnimanagement.entity.job.JobAdvertisement;
 import alumnimanagement.services.JobService;
 import lombok.AllArgsConstructor;
@@ -70,10 +67,10 @@ public class JobController {
         return jobService.findById(id);
     }
 
-    @GetMapping("/{id}/getAll")
-    public List<JobAdvertisementDTO> findStudentJobList(@PathVariable long id,@RequestParam int page, @RequestParam int size, @RequestParam String searchValue)
+    @GetMapping("/jobList/getAll")
+    public List<JobAdvertisementEditDTO> findStudentJobList(@RequestParam int page, @RequestParam int size, @RequestParam String searchValue)
     {
-        var result = jobService.findStudentJobList(id,page,size,searchValue);
+        var result = jobService.findStudentJobList(page,size,searchValue);
         return result;
     }
 

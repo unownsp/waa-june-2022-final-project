@@ -1,6 +1,7 @@
 package alumnimanagement.services.impl;
 
 import alumnimanagement.dto.JobAdvertisementDTO;
+import alumnimanagement.dto.JobAdvertisementEditDTO;
 import alumnimanagement.dto.JobAdvertisementListDTO;
 import alumnimanagement.dto.ReportList;
 import alumnimanagement.entity.job.JobAdvertisement;
@@ -164,11 +165,12 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public List<JobAdvertisementDTO> findStudentJobList(long id, int page, int size, String searchValue) {
+    public List<JobAdvertisementEditDTO> findStudentJobList(int page, int size, String searchValue) {
 
         Pageable pageable = PageRequest.of(page, size);
+        long id = Helper.getLoggedUserId();
         return jobRepo.findAllByStudentId(id).stream()
-                .map(jobadv -> modelMapper.map(jobadv, JobAdvertisementDTO.class))
+                .map(jobadv -> modelMapper.map(jobadv, JobAdvertisementEditDTO.class))
                 .toList();
     }
 
