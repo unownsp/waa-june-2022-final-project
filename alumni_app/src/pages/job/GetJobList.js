@@ -9,7 +9,7 @@ export default function GetJobList() {
     showEdit: true,
     showDelete: true,
     showAddComment: false,
-    dataUrl: "/jobs/" + id,
+    dataUrl: "/jobs/jobList",
     addCommentUrl: "//",
     editUrl: "",
     deleteUrl: "/",
