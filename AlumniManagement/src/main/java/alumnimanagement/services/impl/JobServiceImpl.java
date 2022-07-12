@@ -109,14 +109,14 @@ public class JobServiceImpl implements JobService {
                 for (Tag t : f.getTags()) {
                     dto.setTag(dto.getTag() + " " + t.getTitle());
                 }
-                if(role.equals("STUDENT"))
-                {
-                    if(f.getUserAuth().getId() == userID)
-                    {
-                        dtos.add(dto);
-                    }
-                }
-                else
+//                if(role.equals("STUDENT"))
+//                {
+//                    if(f.getUserAuth().getId() == userID)
+//                    {
+//                        dtos.add(dto);
+//                    }
+//                }
+//                else
                     dtos.add(dto);
             }
         }
@@ -157,14 +157,14 @@ public class JobServiceImpl implements JobService {
                             dto.setTag(dto.getTag() + " " + t.getTitle());
                         }
                     }
-                    if(role.equals("STUDENT"))
-                    {
-                        if(job.getUserAuth().getId() == userID)
-                        {
-                            jobListDto.add(dto);
-                        }
-                    }
-                    else
+//                    if(role.equals("STUDENT"))
+//                    {
+//                        if(job.getUserAuth().getId() == userID)
+//                        {
+//                            jobListDto.add(dto);
+//                        }
+//                    }
+//                    else
                         jobListDto.add(dto);
                 }
             }
