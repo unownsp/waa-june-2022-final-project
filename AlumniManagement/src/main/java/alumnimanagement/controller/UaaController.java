@@ -1,9 +1,11 @@
 package alumnimanagement.controller;
 
 import alumnimanagement.entity.authUser.AdminRole;
+import alumnimanagement.entity.authUser.FacultyRole;
 import alumnimanagement.entity.authUser.StudentRole;
 import alumnimanagement.entity.authUser.UserAuth;
 import alumnimanagement.services.impl.UserAuthServiceImpl;
+import alumnimanagement.utility.Helper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,10 +18,12 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class UaaController {
     @Autowired
+    Helper helper;
+    @Autowired
     private UserAuthServiceImpl userService;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     @PostMapping("/saveAdmin")
     public String saveAdmin(@RequestBody AdminRole user) {
@@ -74,5 +78,40 @@ public class UaaController {
     public String deleteById(@PathVariable Long id) {
         userService.deletById(id);
         return "Deleted Successfully";
+    }
+
+    @PutMapping("/profile")
+    public void editUser(@RequestBody UserAuth userAuth) {
+        Long id = helper.getLoggedUserId();
+        var user =userService.getById(id);
+        switch (user.getRole().toUpperCase())
+        {
+            case "FACULTY":
+                FacultyRole fr = new FacultyRole();
+                fr.setPassword(passwordEncoder.encode(userAuth.getPassword()));
+                fr.setUsername(userAuth.getUsername());
+                fr.setActive(true);
+                fr.setId(id);
+                userService.save(fr);
+                break;
+
+            case"STUDENT":
+                StudentRole st=new StudentRole();
+                st.setPassword(passwordEncoder.encode(userAuth.getPassword()));
+                st.setUsername(userAuth.getUsername());
+                st.setActive(true);
+                st.setId(id);
+                userService.save(st);
+                break;
+
+            case"ADMIN":
+                AdminRole admin=new AdminRole();
+                admin.setPassword(passwordEncoder.encode(userAuth.getPassword()));
+                admin.setUsername(userAuth.getUsername());
+                admin.setActive(true);
+                admin.setId(id);
+                userService.save(admin);
+                break;
+        }
     }
 }
