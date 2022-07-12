@@ -56,7 +56,7 @@ public class JobServiceImpl implements JobService {
         var result = modelMapper.map(jobAdvertisementDTO, JobAdvertisement.class);
         var data = jobRepo.findById(id).get();
         result.setId(id);
-        result.setStudent(data.getStudent());
+        result.setUserAuth(data.getUserAuth());
         result.setDeleted(false);
         result.setPublishDate(data.getPublishDate());
         //todo set file location to result from data if not changed from dto
@@ -111,10 +111,9 @@ public class JobServiceImpl implements JobService {
     @Override
     public Long count(String state, String city, String tag, String name) {
         if (!state.equals("''") || !city.equals("''") || !tag.equals("''") || !name.equals("''")) {
-            return findByFilter(state, city, tag, name).stream().count();
+            return (long) findByFilter(state, city, tag, name).size();
         }
-        Long count = jobRepo.count();
-        return count;
+        return jobRepo.count();
     }
 
     public List<JobAdvertisementListDTO> findByFilter(String state, String city, String tag, String name) {
@@ -171,15 +170,14 @@ public class JobServiceImpl implements JobService {
 
         Pageable pageable = PageRequest.of(page, size);
         long id = Helper.getLoggedUserId();
-        return jobRepo.findAllByStudentId(id).stream()
+        return jobRepo.findAllByUserAuthId(id).stream()
                 .map(jobadv -> modelMapper.map(jobadv, JobAdvertisementEditDTO.class))
                 .toList();
     }
 
     @Override
     public Long countById(long id) {
-        Long count = jobRepo.countByStudentId(id);
-        return count;
+        return jobRepo.countByUserAuthId(id);
     }
 
     @Override

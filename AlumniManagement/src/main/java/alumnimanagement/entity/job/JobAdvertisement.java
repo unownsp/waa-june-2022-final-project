@@ -1,15 +1,13 @@
 package alumnimanagement.entity.job;
 
-import alumnimanagement.entity.Student;
 import alumnimanagement.entity.Address;
+import alumnimanagement.entity.authUser.UserAuth;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
-import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -38,11 +36,10 @@ public class JobAdvertisement {
     private String jobDescFilePath;
 
 
-
     //todo @OneToOne
     //todo Address address;
     @OneToOne
-    @JoinColumn(name="id_address")
+    @JoinColumn(name = "id_address")
     private Address address;
 
     @OneToMany
@@ -50,6 +47,6 @@ public class JobAdvertisement {
     private List<Tag> tags;
 
     @ManyToOne
-    Student student;
+    UserAuth userAuth;
 
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface AppliedJobRepo extends JpaRepository<AppliedJob, Long> {
 //    @Query("Select * from ")
-    List<AppliedJob> findAllByStudentId(Long id);
+    List<AppliedJob> findAllByUserAuthId(Long id);
     List<AppliedJob> findAllByJobAdvertisementId(int jobId);
 
     long countByJobAdvertisementId(Integer id);

@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 public class FacultyListDto {
     private long id;
     private String firstName;
-    private String lastName;
     private String email;
     private String department;
     private String state;

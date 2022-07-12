@@ -1,5 +1,7 @@
 package alumnimanagement.entity;
 
+import alumnimanagement.entity.authUser.UserAuth;
+import alumnimanagement.repo.UserAuthRepo;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
@@ -13,21 +15,13 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String comment;
-//    private long createdBy;
-//    private long updatedBy;
     private boolean isActive;
     private boolean isDeleted;
 
     @ManyToOne
     @JsonBackReference
-    private Faculty faculty;
-
+    private UserAuth faculty;
 
     @ManyToOne
-//    @JsonBackReference
-    private Student student;
-
-
-
-
+    private UserAuth student;
 }

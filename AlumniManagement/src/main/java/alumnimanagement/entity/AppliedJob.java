@@ -1,5 +1,6 @@
 package alumnimanagement.entity;
 
+import alumnimanagement.entity.authUser.UserAuth;
 import alumnimanagement.entity.job.JobAdvertisement;
 import lombok.Data;
 
@@ -19,7 +20,7 @@ public class AppliedJob {
 
     @OneToOne()
     @JoinColumn(name = "id_student")
-    private Student student;
+    private UserAuth userAuth;
 
     @OneToOne
     @JoinColumn(name = "id_job")
