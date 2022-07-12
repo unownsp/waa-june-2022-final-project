@@ -1,6 +1,7 @@
 package alumnimanagement.services.impl;
 
 import alumnimanagement.dto.ExecutionLogDTO;
+import alumnimanagement.dto.ReportList;
 import alumnimanagement.entity.helper.ActivityLog;
 import alumnimanagement.repo.ExecutionLogRepo;
 import alumnimanagement.services.ExecutionLogService;
@@ -9,7 +10,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static alumnimanagement.utility.Helper.getReportLists;
 
 @Service
 @Transactional
@@ -42,7 +47,17 @@ public class ExecutionLogServiceImpl implements ExecutionLogService {
         executionLogRepo.deleteById(id);
     }
 
+    @Override
     public ActivityLog findById(int id) {
         return executionLogRepo.findById(id).isPresent() ? executionLogRepo.findById(id).get() : null;
+    }
+
+    public List<ReportList> getAspectReport() {
+        var data = executionLogRepo.findAll();
+        Map<String, Integer> map = new HashMap<>();
+        for (ActivityLog activityLog : data) {
+
+        }
+        return getReportLists(map);
     }
 }

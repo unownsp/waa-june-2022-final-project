@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static alumnimanagement.utility.Helper.getReportLists;
+
 @Service
 @Transactional
 @AllArgsConstructor
@@ -195,19 +197,6 @@ public class JobServiceImpl implements JobService {
             }
         }
         return getReportLists(map);
-    }
-
-    private List<ReportList> getReportLists(Map<String, Integer> map) {
-        List<ReportList> result2 = new ArrayList<>();
-        for (Map.Entry<String, Integer> set :
-                map.entrySet()) {
-            ReportList dto = new ReportList();
-            dto.value = (long) set.getValue();
-            dto.name = set.getKey();
-            result2.add(dto);
-
-        }
-        return result2;
     }
 
     @Override
