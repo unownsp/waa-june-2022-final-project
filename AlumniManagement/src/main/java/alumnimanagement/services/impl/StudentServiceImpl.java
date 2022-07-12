@@ -45,19 +45,18 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentDTO> findAll() {
-        List<StudentDTO> studentDTOS = userAuthRepo.findAll().stream().filter(student -> !(student.isDeleted())).map(student -> {
-            return modelMapper.map(student, StudentDTO.class);
-        }).toList();
-
-        return studentDTOS;
-
+        return userAuthRepo.findAll()
+                .stream()
+                .filter(student -> !(student.isDeleted()))
+                .map(student -> modelMapper.map(student, StudentDTO.class))
+                .toList();
     }
 
     @Override
     public Long totalStudents(String state, String city, String major, String studentName, long id) {
         Long count = userAuthRepo.count();
         if (id != 0 || !state.equals("''") || !city.equals("''") || !major.equals("''") || !studentName.equals("''")) {
-            return findByFilter(state, city, major, studentName, id).stream().count();
+            return (long) findByFilter(state, city, major, studentName, id).size();
         }
         return count;
     }
@@ -110,7 +109,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<StudentListDto> findAllByParam(int page, int size, String state, String city, String major, String studentName, long id) {
         if (id != 0 || !state.equals("''") || !city.equals("''") || !major.equals("''") || !studentName.equals("''")) {
-            return findByFilter(state, city, major, studentName, id).stream().skip(page * size).limit(5).toList();
+            return findByFilter(state, city, major, studentName, id).stream().skip((long) page * size).limit(5).toList();
         }
         Pageable pageable = PageRequest.of(page, size);
         List<UserAuth> student = userAuthRepo.findAll(pageable).stream().toList();

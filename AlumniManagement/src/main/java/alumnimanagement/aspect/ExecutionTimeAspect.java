@@ -18,6 +18,7 @@ import java.util.Date;
 public class ExecutionTimeAspect {
 
     private final ExecutionLogService executionLogService;
+private final Helper helper;
 
     @Pointcut("@annotation(alumnimanagement.aspect.annotation.ExecutionTime)")
     public void executionTimeAnnotation() {
@@ -31,7 +32,7 @@ public class ExecutionTimeAspect {
         System.out.println(proceedingJoinPoint.getSignature().getName() + " takes ns:" + (finish - start));
         executionLogService.createLog(new ExecutionLogDTO(Helper.getCurrentDate(),
                 proceedingJoinPoint.getSignature().getName(),
-                (finish - start), Helper.getLoggedUserId(), proceedingJoinPoint.getThis().toString(),"Execution Time"));
+                (finish - start), helper.getLoggedUserId(), proceedingJoinPoint.getThis().toString(),"Execution Time"));
         return result;
     }
 }

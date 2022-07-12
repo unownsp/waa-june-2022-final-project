@@ -11,7 +11,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @RequiredArgsConstructor
 public class AllLogAspect {
     private final ExecutionLogService executionLogService;
-
+    private final Helper helper;
     @Pointcut("within(alumnimanagement.services.impl..*)")
     public void headerChecker() {
     }
@@ -21,6 +21,6 @@ public class AllLogAspect {
 
         executionLogService.createLog(new ExecutionLogDTO(Helper.getCurrentDate(),
                 joinPoint.getSignature().getName(),
-                Helper.getLoggedUserId(), Helper.getLoggedUserId(), joinPoint.getThis().toString(), "All Log"));
+                helper.getLoggedUserId(), helper.getLoggedUserId(), joinPoint.getThis().toString(), "All Log"));
     }
 }

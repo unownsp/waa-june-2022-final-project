@@ -7,10 +7,13 @@ import alumnimanagement.dto.ReportList;
 import alumnimanagement.entity.job.JobAdvertisement;
 import alumnimanagement.entity.job.Tag;
 import alumnimanagement.repo.JobRepo;
+import alumnimanagement.repo.StudentRepo;
+import alumnimanagement.repo.UserAuthRepo;
 import alumnimanagement.services.JobService;
 import alumnimanagement.utility.Helper;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,19 +24,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static alumnimanagement.utility.Helper.getReportLists;
-
 @Service
 @Transactional
 @AllArgsConstructor
 public class JobServiceImpl implements JobService {
     private final JobRepo jobRepo;
     private final ModelMapper modelMapper;
+    @Autowired
+    private Helper helper;
 
+    private final UserAuthRepo userAuthRepo;
 
     @Override
     public void create(JobAdvertisementDTO job) {
         var result = modelMapper.map(job, JobAdvertisement.class);
+        result.setUserAuth(userAuthRepo.findById(helper.getLoggedUserId()).get());
         jobRepo.save(result);
     }
 
@@ -85,6 +90,8 @@ public class JobServiceImpl implements JobService {
         Pageable pageable = PageRequest.of(page, size);
         List<JobAdvertisement> list = jobRepo.findAll(pageable).stream().toList();
         List<JobAdvertisementListDTO> dtos = new ArrayList<>();
+        long userID = helper.getLoggedUserId();
+        String role  =helper.getLoggedUserRole().toUpperCase();
         for(JobAdvertisement f : list)
         {
             if(!f.isDeleted()) {
@@ -102,7 +109,15 @@ public class JobServiceImpl implements JobService {
                 for (Tag t : f.getTags()) {
                     dto.setTag(dto.getTag() + " " + t.getTitle());
                 }
-                dtos.add(dto);
+                if(role.equals("STUDENT"))
+                {
+                    if(f.getUserAuth().getId() == userID)
+                    {
+                        dtos.add(dto);
+                    }
+                }
+                else
+                    dtos.add(dto);
             }
         }
         return dtos;
@@ -113,12 +128,15 @@ public class JobServiceImpl implements JobService {
         if (!state.equals("''") || !city.equals("''") || !tag.equals("''") || !name.equals("''")) {
             return (long) findByFilter(state, city, tag, name).size();
         }
-        return jobRepo.count();
+        var result =findAllByParamfilter(0,5,state,city,tag,name);
+        return result.stream().count();
     }
 
     public List<JobAdvertisementListDTO> findByFilter(String state, String city, String tag, String name) {
         List<JobAdvertisement> jobs = jobRepo.findAll().stream().toList();
         List<JobAdvertisementListDTO> jobListDto = new ArrayList<>();
+        long userID = helper.getLoggedUserId();
+        String role  =helper.getLoggedUserRole().toUpperCase();
         for (JobAdvertisement job: jobs){
             if(!job.isDeleted()) {
                 String jobTag = "";
@@ -139,7 +157,15 @@ public class JobServiceImpl implements JobService {
                             dto.setTag(dto.getTag() + " " + t.getTitle());
                         }
                     }
-                    jobListDto.add(dto);
+                    if(role.equals("STUDENT"))
+                    {
+                        if(job.getUserAuth().getId() == userID)
+                        {
+                            jobListDto.add(dto);
+                        }
+                    }
+                    else
+                        jobListDto.add(dto);
                 }
             }
         }
@@ -169,7 +195,7 @@ public class JobServiceImpl implements JobService {
     public List<JobAdvertisementEditDTO> findStudentJobList(int page, int size, String searchValue) {
 
         Pageable pageable = PageRequest.of(page, size);
-        long id = Helper.getLoggedUserId();
+        long id = helper.getLoggedUserId();
         return jobRepo.findAllByUserAuthId(id).stream()
                 .map(jobadv -> modelMapper.map(jobadv, JobAdvertisementEditDTO.class))
                 .toList();
@@ -197,6 +223,19 @@ public class JobServiceImpl implements JobService {
         return getReportLists(map);
     }
 
+    private List<ReportList> getReportLists(Map<String, Integer> map) {
+        List<ReportList> result2 = new ArrayList<>();
+        for (Map.Entry<String, Integer> set :
+                map.entrySet()) {
+            ReportList dto = new ReportList();
+            dto.value = (long) set.getValue();
+            dto.name = set.getKey();
+            result2.add(dto);
+
+        }
+        return result2;
+    }
+
     @Override
     public  List<ReportList> jobsByStateTag(String state) {
         var result = jobRepo.findJobAdvertisementsByAddressStateContaining(state);
@@ -215,5 +254,42 @@ public class JobServiceImpl implements JobService {
         }
 
         return getReportLists(map);
+    }
+
+    public List<JobAdvertisementListDTO> findAllByParamfilter(int page, int size, String state, String city, String tag, String name) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<JobAdvertisement> list = jobRepo.findAll(pageable).stream().toList();
+        List<JobAdvertisementListDTO> dtos = new ArrayList<>();
+        long userID =helper.getLoggedUserId();
+        String role  =helper.getLoggedUserRole().toUpperCase();
+        for(JobAdvertisement f : list)
+        {
+            if(!f.isDeleted()) {
+                JobAdvertisementListDTO dto = new JobAdvertisementListDTO();
+                dto.setId(f.getId());
+                if (f.getAddress() != null) {
+                    dto.setState(f.getAddress().getState());
+                    dto.setCity(f.getAddress().getCity());
+                }
+                dto.setJobDesc(f.getJobDesc());
+                dto.setJobTitle(f.getJobTitle());
+                dto.setCompanyName(f.getCompanyName());
+                dto.setJobType(f.getJobType());
+                dto.setTag(f.getJobTag());
+                for (Tag t : f.getTags()) {
+                    dto.setTag(dto.getTag() + " " + t.getTitle());
+                }
+                if(role.equals("STUDENT"))
+                {
+                    if(f.getUserAuth().getId() == userID)
+                    {
+                        dtos.add(dto);
+                    }
+                }
+                else
+                    dtos.add(dto);
+            }
+        }
+        return dtos;
     }
 }

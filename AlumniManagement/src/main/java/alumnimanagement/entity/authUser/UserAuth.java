@@ -12,17 +12,17 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Role")
-public class UserAuth {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "serial")
-    private Long id;
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Entity
+    @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+    @DiscriminatorColumn(name = "Role")
+    public class UserAuth {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(columnDefinition = "serial")
+        private Long id;
 
     private String username;
 

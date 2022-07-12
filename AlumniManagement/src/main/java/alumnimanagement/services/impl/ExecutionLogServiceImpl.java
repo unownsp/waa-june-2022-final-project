@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static alumnimanagement.utility.Helper.getReportLists;
-
 @Service
 @Transactional
 @AllArgsConstructor
@@ -58,6 +56,6 @@ public class ExecutionLogServiceImpl implements ExecutionLogService {
         for (ActivityLog activityLog : data) {
 
         }
-        return getReportLists(map);
+        return null;
     }
 }

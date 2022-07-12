@@ -38,7 +38,7 @@ function Register() {
         } else {
             setPasswordMatched(true)
             await postRequestNoAuth(params, values);
-            console.log(values);
+            navigate('/')
         }
 
     }
@@ -158,7 +158,7 @@ function Register() {
                                             <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                                 <button type="button" className="btn btn-primary btn-lg" onClick={postData}>Register</button>
                                             </div>
-                                            <a href="#!" className="link-danger" onClick={() => { navigate("/Login") }}>Login</a>
+                                            <a href="#!" className="link-danger" onClick={() => { navigate("/") }}>Login</a>
                                         </form>
 
                                     </div>
