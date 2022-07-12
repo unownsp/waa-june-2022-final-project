@@ -1,7 +1,7 @@
 package alumnimanagement.controller;
 
 import alumnimanagement.dto.AppliedJobDTO;
-import alumnimanagement.dto.AppliedStudentsDTO;
+import alumnimanagement.dto.ListAppliedStudentDTO;
 import alumnimanagement.services.AppliedJobService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -32,17 +32,15 @@ public class AppliedJobController {
     }
 
     @GetMapping("/by/{jobId}/getAll")
-    public List<AppliedStudentsDTO> findStudentsAppliedToJob(@PathVariable int jobId,@RequestParam int page, @RequestParam int size, @RequestParam String searchValue) {
+    public List<ListAppliedStudentDTO> findStudentsAppliedToJob(@PathVariable int jobId, @RequestParam int page, @RequestParam int size, @RequestParam String searchValue) {
         System.out.println("here==========================>");
-        return appliedJobService.findStudentsJobAppliedToJob(jobId,page,size,searchValue);
+        return appliedJobService.findStudentsJobAppliedToJob(jobId, page, size, searchValue);
     }
 
     @GetMapping("/by/{jobId}/count")
-    public Long count(int id)
-    {
+    public Long count(int id) {
         return appliedJobService.countById(id);
     }
-
 
 
 }

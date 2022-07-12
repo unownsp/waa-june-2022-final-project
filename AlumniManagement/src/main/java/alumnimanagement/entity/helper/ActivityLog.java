@@ -13,7 +13,7 @@ public class ActivityLog {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Temporal(TemporalType.DATE)
+
     private LocalDateTime date;
     private String operation;
     private long duration;

@@ -2,10 +2,10 @@ package alumnimanagement.services;
 
 import alumnimanagement.dto.AppliedJobDTO;
 import alumnimanagement.dto.AppliedStudentsDTO;
+import alumnimanagement.dto.ListAppliedStudentDTO;
 import alumnimanagement.dto.StudentListDto;
 
 import java.util.List;
-
 
 public interface AppliedJobService {
 
@@ -15,7 +15,7 @@ public interface AppliedJobService {
 
     List<AppliedJobDTO> findAppliedJobByStudentId(long studentId);
 
-    List<AppliedStudentsDTO> findStudentsJobAppliedToJob(int id,int page, int size, String searchValue);
+    List<ListAppliedStudentDTO> findStudentsJobAppliedToJob(int id, int page, int size, String searchValue);
 
     Long countById(int id);
 }

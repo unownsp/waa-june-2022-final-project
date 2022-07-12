@@ -1,9 +1,6 @@
 package alumnimanagement.services.impl;
 
-import alumnimanagement.dto.AppliedJobDTO;
-import alumnimanagement.dto.AppliedStudentsDTO;
-import alumnimanagement.dto.StudentDTO;
-import alumnimanagement.dto.StudentListDto;
+import alumnimanagement.dto.*;
 import alumnimanagement.entity.AppliedJob;
 import alumnimanagement.entity.Student;
 import alumnimanagement.entity.job.JobAdvertisement;
@@ -63,11 +60,20 @@ public class AppliedJobServiceImpl implements AppliedJobService {
     }
 
     @Override
-    public List<AppliedStudentsDTO> findStudentsJobAppliedToJob(int jobId,int page, int size, String searchValue){
+    public List<ListAppliedStudentDTO> findStudentsJobAppliedToJob(int jobId, int page, int size, String searchValue){
         Pageable pageable = PageRequest.of(page, size);
         return appliedJobRepo.findAllByJobAdvertisementId(jobId)
                 .stream()
-                .map(appliedJob -> modelMapper.map(appliedJob.getStudent(), AppliedStudentsDTO.class))
+                .map(appliedJob -> {
+                    ListAppliedStudentDTO listAppliedStudentDTO = new ListAppliedStudentDTO();
+                    listAppliedStudentDTO.setFirstName(appliedJob.getStudent().getFirstName());
+                    listAppliedStudentDTO.setLastName(appliedJob.getStudent().getLastName());
+                    listAppliedStudentDTO.setEmail(appliedJob.getStudent().getEmail());
+                    listAppliedStudentDTO.setCity(appliedJob.getStudent().getAddress().getCity());
+                    listAppliedStudentDTO.setState(appliedJob.getStudent().getAddress().getState());
+                    listAppliedStudentDTO.setCvLink(appliedJob.getStudent().getCvLink());
+                    return listAppliedStudentDTO;
+                })
                 .toList();
     }
 
