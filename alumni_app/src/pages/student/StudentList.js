@@ -6,7 +6,7 @@ import TableMain from "../../common/TableMain";
 
 const listParams = {
     'showDetail': true,
-    'showEdit': true,
+    'showEdit': false,
     'showDelete': true,
     'showAddComment': true,
     'dataUrl': "/students/''/''/''/''/''",

@@ -56,6 +56,8 @@ INSERT INTO comment (id, comment, is_active, is_deleted, faculty_id, student_id)
 INSERT INTO comment (id, comment, is_active, is_deleted, faculty_id, student_id) VALUES (2, 'Good boy.',true,false,1,1);
 INSERT INTO comment (id, comment, is_active, is_deleted, faculty_id, student_id) VALUES (3, 'Fresh boy',true,false,1,2);
 
+select setval('comment_id_seq', max(id)) from comment;
+
 
 
 
