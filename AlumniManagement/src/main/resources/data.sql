@@ -1,0 +1,14 @@
+INSERT INTO address (id,city,state) VALUES (1,'Fairfield','IOWA');
+INSERT INTO address (id,city,state) VALUES (2,'BHAKTAPUR','OHIO');
+INSERT INTO address (id,city,state) VALUES (3,'SOUTH','COLORADO');
+INSERT INTO address (id,city,state) VALUES (4,'POKHARA','CALIFORNIA');
+INSERT INTO address (id,city,state) VALUES (5,'HETAUDA','ALASKA');
+INSERT INTO address (id,city,state) VALUES (6,'KATHMANDU','KANSAS');
+INSERT INTO address (id,city,state) VALUES (7,'DANG','FLORIDA');
+INSERT INTO address (id,city,state) VALUES (8,'Ottumwa','IOWA');
+INSERT INTO address (id,city,state) VALUES (9,'De Moines','IOWA');
+INSERT INTO address (id,city,state) VALUES (10,'North','COLORADO');
+INSERT INTO address (id,city,state) VALUES (11,'Chitwan','CALIFORNIA');
+INSERT INTO address (id,city,state) VALUES (12,'Bharatpur','ALASKA');
+INSERT INTO address (id,city,state) VALUES (13,'Walling','KANSAS');
+INSERT INTO address (id,city,state) VALUES (14,'Patan','FLORIDA');

@@ -3,11 +3,14 @@ package alumnimanagement.controller;
 import alumnimanagement.dto.LoginResponse;
 import alumnimanagement.dto.StudentDTO;
 import alumnimanagement.dto.UserDto;
+import alumnimanagement.entity.Address;
 import alumnimanagement.entity.authUser.AdminRole;
 import alumnimanagement.entity.authUser.FacultyRole;
 import alumnimanagement.entity.authUser.StudentRole;
 import alumnimanagement.entity.authUser.UserAuth;
 import alumnimanagement.jwt.JWTUtility;
+import alumnimanagement.repo.AddressRepo;
+import alumnimanagement.services.AddressService;
 import alumnimanagement.services.impl.UserAuthServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,8 @@ public class LoginController {
     private String token;
 
     private PasswordEncoder passwordEncoder;
+
+    private AddressService addressService;
     @PostMapping()
     public LoginResponse authenticate(@RequestBody UserAuth jwtRequest) throws Exception {
         try {
@@ -71,7 +76,7 @@ public class LoginController {
 
     @PostMapping("/register")
     public String registerUser(@RequestBody UserDto userDto){
-
+        var add = addressService.getById(1);
         switch (userDto.getRole().toUpperCase())
         {
             case "FACULTY":
@@ -80,6 +85,7 @@ public class LoginController {
                 fr.setUsername(userDto.getName());
                 fr.setActive(true);
                 userAuthService.save(fr);
+                fr.setAddress(add);
                 break;
 
             case"STUDENT":
@@ -87,6 +93,7 @@ public class LoginController {
                 st.setPassword(passwordEncoder.encode(userDto.getPassword1()));
                 st.setUsername(userDto.getName());
                 st.setActive(true);
+                st.setAddress(add);
                 userAuthService.save(st);
                 break;
 
@@ -96,6 +103,7 @@ public class LoginController {
                 admin.setUsername(userDto.getName());
                 admin.setActive(true);
                 userAuthService.save(admin);
+                admin.setAddress(add);
                 break;
         }
 
