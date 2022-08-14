@@ -92,7 +92,7 @@ export default function Login() {
             </section>
             <div className="sigin-In d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
                 <div className="text-white ">
-                    Copyright © 2020. All rights reserved.
+                    Copyright © 2022. WAA GROUPS
                 </div>
                 <div>
                     <a href="#!" className="text-white me-4">

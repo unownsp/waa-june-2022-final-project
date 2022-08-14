@@ -46,7 +46,7 @@ INSERT INTO job_advertisement(add_benefit, company_name, company_size, job_desc,
 INSERT INTO job_advertisement(add_benefit, company_name, company_size, job_desc, job_tag, job_title, job_type, num_opening, payment_amount, publish_date, id_address, student_id, is_deleted) VALUES ('Tou trip','Honda Co. Ltd.','100-1000','Mid level C# developer needed in MiSUMi','C#, MySQL','Full Stack Developer','Full-Time',3,150000,'2022-01-12',5,5,false);
 
 
-INSERT INTO faculty (id, active, department, email, first_name, last_logged_in_at, last_name, password, id_address, is_deleted) VALUES (1, true,'cs','faculty@miu.edu','Bibek','2022-01-15','Thokar','admin123',1, false);
+INSERT INTO faculty (id, active, department, email, first_name, last_logged_in_at, last_name, password, id_address, is_deleted) VALUES (1, true,'cs','faculty@miu.edu','faculty','2022-01-15','fact','admin123',1, false);
 
 INSERT INTO comment (id, comment, is_active, is_deleted, faculty_id, student_id) VALUES (1, 'Extraordinary Student',true,false,1,1);
 INSERT INTO comment (id, comment, is_active, is_deleted, faculty_id, student_id) VALUES (2, 'Good boy.',true,false,1,1);
